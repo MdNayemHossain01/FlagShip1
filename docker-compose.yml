@@ -1,0 +1,57 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: flagship-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${PGDATABASE:-flagship}
+      POSTGRES_USER: ${PGUSER:-flagship_app}
+      POSTGRES_PASSWORD: ${PGPASSWORD:-flagship_dev_pass}
+    ports:
+      - "5432:5432"
+    volumes:
+      - flagship_pgdata:/var/lib/postgresql/data
+      - ./backend-java/src/main/resources/db/migration/V1__init_flagship_schema.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${PGUSER:-flagship_app} -d ${PGDATABASE:-flagship}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+
+  flagship-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: flagship-platform
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      PGHOST: postgres
+      PGPORT: 5432
+      PGDATABASE: ${PGDATABASE:-flagship}
+      PGUSER: ${PGUSER:-flagship_app}
+      PGPASSWORD: ${PGPASSWORD:-flagship_dev_pass}
+      JWT_SECRET: ${JWT_SECRET:-change-me-in-production-min-32-chars}
+      JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET:-change-me-refresh-min-32-chars}
+    ports:
+      - "3000:3000"
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3000/api/actuator/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+
+volumes:
+  flagship_pgdata:

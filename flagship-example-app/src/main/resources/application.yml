@@ -1,0 +1,16 @@
+server:
+  port: 8081
+
+flagship:
+  enabled: true
+  server-url: ${FLAGSHIP_SERVER_URL:http://localhost:3000}
+  sdk-key: ${FLAGSHIP_SDK_KEY:fs_prod_replace_with_your_key}
+  snapshot-file: ./data/flagship-snapshot.json
+  startup-timeout-ms: 1500
+  poll-interval-ms: 15000
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,metrics,flagship

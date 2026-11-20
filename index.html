@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FlagShip — Enterprise Feature Flag & Gradual Rollout Platform</title>
+    <meta name="description" content="Enterprise-grade feature flag, gradual rollout, targeting rules, and experiment analytics platform." />
+    <meta property="og:title" content="FlagShip — Feature Flag & Gradual Rollout Platform" />
+    <meta property="og:description" content="Release features safely with deterministic gradual rollouts, real-time SSE updates, two-person approvals, and experiment analytics." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script>
+      (function () {
+        try {
+          var stored = localStorage.getItem('flagship-theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          if (stored === 'dark' || (!stored && prefersDark)) {
+            document.documentElement.classList.add('dark');
+          } else {
+            document.documentElement.classList.remove('dark');
+          }
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body class="bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 antialiased selection:bg-blue-600/20 selection:text-blue-700 dark:selection:text-blue-300">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+

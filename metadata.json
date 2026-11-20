@@ -1,0 +1,6 @@
+{
+  "name": "FlagShip",
+  "description": "Enterprise-grade feature flag, gradual rollout, targeting rules, and experiment analytics platform.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
